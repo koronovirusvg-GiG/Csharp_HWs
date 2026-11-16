@@ -1,0 +1,26 @@
+using System.Text.Json;
+
+а) 
+
+public class Game
+{
+    public string Title { get; set; }
+    public int Year { get; set; }
+    public double Rating { get; set; }
+    public List<string> Genres { get; set; }
+    public bool IsMultiplayer { get; set; }
+}
+
+б) по уммолчанию System.Text.Json.JsonSerializer смотрит на регистр и различает его. Надо отключить ему принудительную проверку через options:
+
+var options = new JsonSerializerOptions
+{
+    PropertyNameCaseInsensitive = true
+};
+
+Game game = JsonSerializer.Deserialize<Game>(jsonString, options);
+
+в) Является. можно написать через List<object>: 
+
+string json = "[1, \"hello\", true, null]";
+object[] items = JsonSerializer.Deserialize<object[]>(json);
